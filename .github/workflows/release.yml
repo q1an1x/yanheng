@@ -33,7 +33,9 @@ jobs:
           sudo install -m 755 yanbao /usr/local/bin/yanbao
 
       - name: Verify dependencies
-        run: yanbao audit --offline
+        run: |
+          yanbao install
+          yanbao audit --offline
 
       - name: Build release artifacts
         env:
