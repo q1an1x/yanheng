@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  macos-arm64:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Yanxu
+        run: |
+          curl -fsSLO https://github.com/YanXuLang/yanxu/releases/download/v1.1.11/yanxu-aarch64-apple-darwin.tar.gz
+          curl -fsSLO https://github.com/YanXuLang/yanxu/releases/download/v1.1.11/yanxu-aarch64-apple-darwin.sha256
+          shasum -a 256 -c yanxu-aarch64-apple-darwin.sha256
+          tar -xzf yanxu-aarch64-apple-darwin.tar.gz
+          sudo install -m 755 yanxu /usr/local/bin/yanxu
+
+      - name: Install Yanbao
+        run: |
+          curl -fsSLO https://github.com/YanXuLang/yanbao/releases/download/v0.5.0/yanbao-aarch64-apple-darwin.tar.gz
+          curl -fsSLO https://github.com/YanXuLang/yanbao/releases/download/v0.5.0/yanbao-aarch64-apple-darwin.sha256
+          shasum -a 256 -c yanbao-aarch64-apple-darwin.sha256
+          tar -xzf yanbao-aarch64-apple-darwin.tar.gz
+          sudo install -m 755 yanbao /usr/local/bin/yanbao
+
+      - name: Verify dependencies
+        run: yanbao audit --offline
+
+      - name: Build release artifacts
+        env:
+          VERSION: ${{ github.ref_name }}
+          SKIP_NATIVE_BUILD: "1"
+        run: |
+          test "$(uname -m)" = "arm64"
+          VERSION="${VERSION#v}" sh scripts/package-release.sh
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Yanheng-macOS-arm64
+          path: dist/*
+
+      - name: Publish GitHub release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: dist/*

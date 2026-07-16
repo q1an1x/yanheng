@@ -1,0 +1,37 @@
+[包]
+格式 = 2
+名称 = "yanheng-native"
+版本 = "0.1.0"
+言序 = ">=1.1.8"
+入口 = "src/言衡伴生.yx"
+说明 = "言衡的 sub2api 客户端、Keychain 与定时刷新原生伴生模块"
+许可 = "MIT"
+作者 = ["q1an1x"]
+
+[依赖]
+
+[权限]
+文件 = []
+网络 = ["*"]
+TCP监听 = []
+UDP绑定 = []
+环境 = []
+进程 = false
+原生扩展 = false
+
+[导出]
+默认 = "src/言衡伴生.yx"
+
+[原生]
+ABI = 2
+
+[原生.macos.aarch64]
+文件 = "aarch64-apple-darwin/libYanhengNative.dylib"
+校验和 = "f5821633bdc3ca62c2dbd8c32a391fee00b9cbafff0d2e999479b491638a7b72"
+大小 = 382648
+
+[资源]
+目录 = ["aarch64-apple-darwin"]
+
+[构建]
+目标 = "字节码"
