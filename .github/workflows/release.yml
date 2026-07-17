@@ -17,8 +17,8 @@ jobs:
 
       - name: Install Yanxu
         run: |
-          curl -fsSLO https://github.com/YanXuLang/yanxu/releases/download/v1.1.11/yanxu-aarch64-apple-darwin.tar.gz
-          curl -fsSLO https://github.com/YanXuLang/yanxu/releases/download/v1.1.11/yanxu-aarch64-apple-darwin.sha256
+          curl -fsSLO https://github.com/YanXuLang/yanxu/releases/download/v1.1.14/yanxu-aarch64-apple-darwin.tar.gz
+          curl -fsSLO https://github.com/YanXuLang/yanxu/releases/download/v1.1.14/yanxu-aarch64-apple-darwin.sha256
           shasum -a 256 -c yanxu-aarch64-apple-darwin.sha256
           tar -xzf yanxu-aarch64-apple-darwin.tar.gz
           sudo install -m 755 yanxu /usr/local/bin/yanxu
@@ -39,7 +39,7 @@ jobs:
 
       - name: Build release artifacts
         env:
-          VERSION: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || '0.2.2' }}
+          VERSION: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || '0.3.1' }}
         run: |
           test "$(uname -m)" = "arm64"
           VERSION="${VERSION#v}" sh scripts/package-release.sh
