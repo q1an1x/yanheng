@@ -2,7 +2,7 @@
 set -eu
 
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-VERSION=${VERSION:-0.2.0}
+VERSION=${VERSION:-0.2.1}
 ARCH=${ARCH:-arm64}
 DIST="$ROOT/dist"
 APP="$ROOT/build/言衡.app"

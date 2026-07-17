@@ -31,7 +31,7 @@
 定 请求明细状态 为 界面.文字状态（「stats.detail」，「等待统计数据」）；
 定 模型状态 为 界面.文字状态（「stats.models」，「等待模型统计」）；
 定 用户榜状态 为 界面.文字状态（「stats.users」，「等待用户消费统计」）；
-定 实时周期状态 为 界面.文字状态（「live.period」，「5m」）；
+定 实时周期状态 为 界面.文字状态（「live.period」，「1m」）；
 定 实时状态 为 界面.文字状态（「live.detail」，「等待实时监控数据」）；
 定 SLA状态 为 界面.文字状态（「live.sla」，「--」）；
 
@@ -58,6 +58,7 @@
 令 仪表数据：典 为{}；
 令 账号页：数 为 1；
 令 今日日期：文 为「」；
+令 当前ISO：文 为「」；
 
 法 配置（）：典 则
     归 {「base_url」：文字.修剪（地址状态.取值（））,「admin_api_key」：密钥状态.取值（）,
@@ -201,13 +202,34 @@
     归 空；
 终
 
+法 处理一分钟起点（结果）：空 则
+    若 结果.错误 不等于「」或 非 有键（结果.值，「iso8601」）则 实时状态.设值（「无法构造 1 分钟时间范围」）；会话.提交状态（）；归 空；终
+    定 路径：文 为「/api/v1/admin/ops/dashboard/overview?start_time=」加 结果.值【「iso8601」】加「&end_time=」加 当前ISO；
+    发GET（「live-overview」，路径，处理实时）；归 空；
+终
+
+法 处理实时当前时钟（结果）：空 则
+    若 结果.错误 不等于「」或 非 有键（结果.值，「iso8601」）则 实时状态.设值（「无法读取当前时间」）；会话.提交状态（）；归 空；终
+    置 当前ISO 为 结果.值【「iso8601」】；
+    会话.执行请求（界面.时钟请求（「clock-minute-start」，-60）.完成时（处理一分钟起点））；归 空；
+终
+
+法 刷新实时（）：空 则
+    若 实时周期状态.取值（）等于「1m」则
+        会话.执行请求（界面.时钟请求（「clock-live-now」，0）.完成时（处理实时当前时钟））；
+    否则
+        发GET（「live-overview」，「/api/v1/admin/ops/dashboard/overview?time_range=」加 实时周期状态.取值（），处理实时）；
+    终
+    归 空；
+终
+
 法 刷新统计（）：空 则
     定 查询：文 为 周期查询（）；
     发GET（「period-stats」，「/api/v1/admin/usage/stats」加 查询，处理周期统计）；
     发GET（「period-models」，「/api/v1/admin/dashboard/models」加 查询，处理模型）；
     令 榜查询：文 为 查询；若 榜查询 等于「」则 置 榜查询 为「?limit=12」；否则 置 榜查询 为 榜查询 加「&limit=12」；终
     发GET（「period-ranking」，「/api/v1/admin/dashboard/users-ranking」加 榜查询，处理用户榜）；
-    发GET（「live-overview」，「/api/v1/admin/ops/dashboard/overview?time_range=」加 实时周期状态.取值（），处理实时）；归 空；
+    刷新实时（）；归 空；
 终
 
 法 处理时钟（结果）：空 则
@@ -221,7 +243,7 @@
     置 正在刷新 为 真；置 账号完成 为 假；置 仪表完成 为 假；置 账号列 为【】；置 仪表数据 为{}；置 账号页 为 1；同步状态.设值（「正在同步…」）；会话.提交状态（）；
     发GET（「accounts-page」，「/api/v1/admin/accounts?page=1&page_size=100&sort_by=name&sort_order=asc」，处理账号）；
     发GET（「dashboard-stats」，「/api/v1/admin/dashboard/stats」，处理仪表）；
-    会话.执行请求（界面.时钟请求（「clock-now」）.完成时（处理时钟））；归 空；
+    会话.执行请求（界面.时钟请求（「clock-now」，0）.完成时（处理时钟））；归 空；
 终
 
 法 重启定时（）：空 则
@@ -253,7 +275,7 @@
 终
 
 定 周期选择 为 界面.选择器（「stats-period」，「统计周期」，【界面.选项（「今天」，「today」）,界面.选项（「7 天」，「7d」）,界面.选项（「总计」，「total」）】，周期状态.绑定（））.设（「pickerStyle」，「segmented」）；
-定 实时选择 为 界面.选择器（「live-period」，「实时窗口」，【界面.选项（「5min」，「5m」）,界面.选项（「30min」，「30m」）,界面.选项（「1h」，「1h」）】，实时周期状态.绑定（））.设（「pickerStyle」，「segmented」）；
+定 实时选择 为 界面.选择器（「live-period」，「实时窗口」，【界面.选项（「1min」，「1m」）,界面.选项（「5min」，「5m」）,界面.选项（「30min」，「30m」）,界面.选项（「1h」，「1h」）】，实时周期状态.绑定（））.设（「pickerStyle」，「segmented」）；
 
 定 五时块 为 界面.垂直（【界面.标签（「5 小时用量窗口」，「clock.badge.checkmark」）.字体（「headline」，「semibold」）,界面.绑定文本（五时状态.绑定（））.字体（「caption」，「regular」）,界面.绑定进度（「five-progress」，五时进度状态.绑定（））,界面.绑定文本（五时重置状态.绑定（））.字体（「caption」，「regular」)】）.设间距（5）；
 定 七日块 为 界面.垂直（【界面.标签（「7 天用量窗口」，「calendar.badge.clock」）.字体（「headline」，「semibold」）,界面.绑定文本（七日状态.绑定（））.字体（「caption」，「regular」）,界面.绑定进度（「seven-progress」，七日进度状态.绑定（））,界面.绑定文本（七日重置状态.绑定（））.字体（「caption」，「regular」)】）.设间距（5）；
@@ -286,10 +308,10 @@
     若 事件.名称 等于「timer.fired」且 有键（事件.载荷，「timer」）且 事件.载荷【「timer」】等于「refresh-timer」则 刷新（）；终
     若 事件.名称 等于「binding.changed」且 有键（事件.载荷，「binding」）则
         若 事件.载荷【「binding」】等于「stats.period」则 刷新统计（）；终
-        若 事件.载荷【「binding」】等于「live.period」则 发GET（「live-overview」，「/api/v1/admin/ops/dashboard/overview?time_range=」加 实时周期状态.取值（），处理实时）；终
+        若 事件.载荷【「binding」】等于「live.period」则 刷新实时（）；终
     终
     若 事件.名称 等于「config.save」则 会话.执行请求（界面.安全存储请求（「save-config」，「set」，服务名，配置账号，JSON.序列化（配置（）））.完成时（处理保存））；终
-    若 事件.名称 等于「app.quit」则 会话.执行请求（界面.定时器请求（「stop-on-quit」，假，0）.停止目标（「refresh-timer」））；会话.退出（）；终
+    若 事件.名称 等于「app.quit」则 会话.退出（）；终
     归 空；
 终
 

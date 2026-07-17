@@ -1,7 +1,7 @@
 [包]
 格式 = 2
 名称 = "yanheng"
-版本 = "0.2.0"
+版本 = "0.2.1"
 言序 = ">=1.1.8"
 入口 = "src/主.yx"
 说明 = "言衡：面向 sub2api 的麦金塔菜单栏账号与用量监控工具"
@@ -9,13 +9,13 @@
 作者 = ["q1an1x"]
 
 [依赖]
-macos-ui = { 包 = "yanxu-macos-ui", git = "https://github.com/yanxulang/yanxu-macos-ui.git", 修订 = "v0.7.0", 版 = "^0.7" }
+macos-ui = { 包 = "yanxu-macos-ui", git = "https://github.com/yanxulang/yanxu-macos-ui.git", 修订 = "v0.7.3", 版 = "^0.7" }
 
 [应用]
 类型 = "图形"
 名称 = "言衡"
 标识 = "dev.yanxu.yanheng"
-版本 = "0.2.0"
+版本 = "0.2.1"
 公司 = "Yanxu"
 最低系统版本 = "13.0"
 图标 = "assets/AppIcon.png"
