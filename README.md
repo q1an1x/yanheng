@@ -42,16 +42,16 @@
 
 ## 开发
 
-需要言序 1.1.8+、言包 0.5.0+：
+需要言序 1.1.12+、言包 0.5.0+：
 
 ```sh
 yanbao audit --offline
 yanbao check
 yanbao build --release --bundle
-VERSION=0.2.2 sh scripts/package-release.sh
+VERSION=0.3.0 sh scripts/package-release.sh
 ```
 
-言衡仓库不包含 Swift 或应用专属原生模块。HTTP、Keychain、定时器和 SwiftUI 控件由锁定的 `yanxu-macos-ui` 通用宿主提供。
+言衡仓库不包含 Swift 或应用专属原生模块。HTTP 与日期时间分别由纯言序 `yanxu-request`、`yanxu-datetime` 提供；Keychain、菜单栏定时器和 SwiftUI 控件由锁定的 `yanxu-macos-ui` 通用宿主提供。
 
 ## 许可
 

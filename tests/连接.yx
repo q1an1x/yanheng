@@ -1,0 +1,6 @@
+引「标准:测试」为 测试；
+引「../src/连接.yx」为 连接；
+
+定 错误 为 连接.HTTP错误（401，「{\"code\":\"INVALID_ADMIN_KEY\",\"message\":\"Invalid admin API key\"}」，「admin-example-1234」）；
+测试.相等（错误，「HTTP 401 · Invalid admin API key（INVALID_ADMIN_KEY）。服务端拒绝了本次发送的 KEY（18 字符，末 4 位 1234），请确认服务地址与 KEY 属于同一个 sub2api 实例。」）；
+测试.相等（连接.HTTP错误（503，「not-json」，「」），「HTTP 503 · 请求失败」）；
