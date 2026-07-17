@@ -35,20 +35,20 @@
 
 ## 安全
 
-- HTTP 请求只向配置的服务根地址发出，并使用 `x-api-key` 管理员认证；
+- HTTP 请求只向配置的服务根地址发出，可连接公网或用户局域网中的 sub2api，并使用 `x-api-key` 管理员认证；
 - API Key 通过 Keychain generic password 保存，不写入言序清单、日志或 UserDefaults；
 - 应用只调用读取类管理 API，不修改 sub2api 账号和设置；
 - 原生制品及依赖在 `言序.lock` 与 Bundle 清单中记录 SHA-256。
 
 ## 开发
 
-需要言序 1.1.14+、言包 0.5.0+：
+需要言序 1.1.15+、言包 0.5.0+：
 
 ```sh
 yanbao audit --offline
 yanbao check
 yanbao build --release --bundle
-VERSION=0.3.1 sh scripts/package-release.sh
+VERSION=0.3.2 sh scripts/package-release.sh
 ```
 
 言衡仓库不包含 Swift 或应用专属原生模块。HTTP 与日期时间分别由纯言序 `yanxu-request`、`yanxu-datetime` 提供；Keychain、菜单栏定时器和 SwiftUI 控件由锁定的 `yanxu-macos-ui` 通用宿主提供。

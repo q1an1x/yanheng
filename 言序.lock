@@ -1,7 +1,7 @@
 lock_version = 2
-manifest_checksum = "b36a490677055c6f709efb8b91e344f1fd68e4818db1dda4232c78dc37df122a"
+manifest_checksum = "7c6cd559ae9a642260dd37ee8e178f42dab15ef570eae258365ee468b9148d16"
 target = "aarch64-apple-darwin"
-generator = "1.1.14"
+generator = "1.1.15"
 
 [root_dependencies]
 datetime = "言时@1.0.0#13e245bbcadb-79cfd198d3944422"
