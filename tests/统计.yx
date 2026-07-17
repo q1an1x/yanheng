@@ -1,0 +1,10 @@
+引「标准:测试」为 测试；
+引「../src/统计.yx」为 统计；
+
+定 账号 为 {「name」：「codex-1」,「platform」：「openai」,「status」：「active」,「schedulable」：真,「extra」：{「codex_5h_used_percent」：20,「codex_7d_used_percent」：40,「codex_5h_reset_after_seconds」：3600}}；
+定 结果 为 统计.聚合（【账号】，{「today_input_tokens」：1200,「today_output_tokens」：300},{「minimum_available_accounts」：1,「minimum_available_percent」：30,「warning_remaining_percent」：25}）；
+测试.相等（结果【「headline」】，「账号供给充足」）；
+测试.相等（结果【「available」】，1）；
+测试.相等（结果【「five_remaining」】，0.8）；
+测试.相等（结果【「seven_remaining」】，0.6）；
+测试.相等（统计.紧凑数（1200），「1.2K」）；
