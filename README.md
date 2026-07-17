@@ -48,7 +48,7 @@
 yanbao audit --offline
 yanbao check
 yanbao build --release --bundle
-VERSION=0.2.1 sh scripts/package-release.sh
+VERSION=0.2.2 sh scripts/package-release.sh
 ```
 
 言衡仓库不包含 Swift 或应用专属原生模块。HTTP、Keychain、定时器和 SwiftUI 控件由锁定的 `yanxu-macos-ui` 通用宿主提供。

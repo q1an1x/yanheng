@@ -1,20 +1,20 @@
 lock_version = 2
-manifest_checksum = "0df1b922015c9d7010d69957b7ed348ab3c1b103aa7215e227a33d2c8a37c71c"
+manifest_checksum = "4e706ff6e0de6f7ce02f20105d273e4dd39aa1df0eea04f85c2128c140b2c15c"
 target = "aarch64-apple-darwin"
 generator = "1.1.8"
 
 [root_dependencies]
-macos-ui = "yanxu-macos-ui@0.7.3#9d64a90c3aed-f717e3e7fe7fd06c"
+macos-ui = "yanxu-macos-ui@0.7.4#9d64a90c3aed-6a1397528c3c1a57"
 
 [root_dev_dependencies]
 
 [[package]]
-id = "yanxu-macos-ui@0.7.3#9d64a90c3aed-f717e3e7fe7fd06c"
+id = "yanxu-macos-ui@0.7.4#9d64a90c3aed-6a1397528c3c1a57"
 name = "yanxu-macos-ui"
-version = "0.7.3"
+version = "0.7.4"
 source = "git:https://github.com/yanxulang/yanxu-macos-ui.git"
-revision = "dea34c7dfaa5fad2bc919b7129b0d9e3fb7fba13"
-checksum = "f717e3e7fe7fd06c1ab1b5aa4110b8ac0653b98b09bccbe5f987a6fb34eab47e"
+revision = "71618b3f534826b59d935bf7900ee27bbbd3d2e8"
+checksum = "6a1397528c3c1a57523053896751877ac1ece0c9c26cd677630666e5acdce53d"
 entry = "src/言序麦金塔界面.yx"
 target = "aarch64-apple-darwin"
 minimum_yanxu = ">=1.1.7"
@@ -28,5 +28,5 @@ minimum_yanxu = ">=1.1.7"
 abi = 2
 target = "aarch64-apple-darwin"
 path = "native/aarch64-apple-darwin/libYanxuMacUIHost.dylib"
-checksum = "40c49e9d29b18468b72b89e9965f247a58ebdfe850393f8e7fde38b5a564f9d1"
+checksum = "50609951fa2190919835657a94ff63698c172c8e105cc8e871591383efacfaf9"
 size = 1117048
