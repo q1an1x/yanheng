@@ -39,7 +39,7 @@ jobs:
 
       - name: Build release artifacts
         env:
-          VERSION: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || '1.0.0' }}
+          VERSION: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || '1.0.1' }}
         run: |
           test "$(uname -m)" = "arm64"
           VERSION="${VERSION#v}" sh scripts/package-release.sh

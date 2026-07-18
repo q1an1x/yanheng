@@ -53,7 +53,7 @@
 yanbao audit --offline
 yanbao check
 yanxu 编 . -o build/言衡.app --release --bundle
-VERSION=1.0.0 sh scripts/package-release.sh
+VERSION=1.0.1 sh scripts/package-release.sh
 ```
 
 言衡仓库不包含 Swift 或应用专属原生模块。HTTP 与日期时间分别由纯言序 `yanxu-request`、`yanxu-datetime` 提供；Keychain、菜单栏定时器和 SwiftUI 控件由锁定的 `yanxu-macos-ui` 通用宿主提供。
