@@ -2,16 +2,19 @@
 set -eu
 
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-VERSION=${VERSION:-1.0.0-beta.1}
+VERSION=${VERSION:-1.0.0}
 ARCH=${ARCH:-arm64}
 DIST="$ROOT/dist"
 APP="$ROOT/build/言衡.app"
+YANXU_BIN=${YANXU_BIN:-yanxu}
+YANBAO_BIN=${YANBAO_BIN:-yanbao}
 
 mkdir -p "$DIST"
+rm -rf "$APP"
 
-yanbao check --manifest-path "$ROOT"
-yanbao audit --manifest-path "$ROOT" --offline
-yanbao build --manifest-path "$ROOT" --release --bundle
+YANXU_BIN="$YANXU_BIN" "$YANBAO_BIN" check --manifest-path "$ROOT"
+YANXU_BIN="$YANXU_BIN" "$YANBAO_BIN" audit --manifest-path "$ROOT" --offline
+"$YANXU_BIN" 编 "$ROOT" -o "$APP" --release --bundle
 xattr -cr "$APP"
 
 ZIP="$DIST/Yanheng-$VERSION-$ARCH.zip"

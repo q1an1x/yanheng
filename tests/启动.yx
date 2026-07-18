@@ -1,0 +1,6 @@
+引「标准:测试」为 测试；
+引「../src/启动.yx」为 启动；
+
+测试.相等（启动.包路径（「/Applications/言衡.app/Contents/MacOS/yanheng」），「/Applications/言衡.app」）；
+测试.相等（启动.包路径（「/Users/test/言衡.app/Contents/MacOS/yanheng」），「/Users/test/言衡.app」）；
+测试.相等（启动.是否后台启动（），假）；
