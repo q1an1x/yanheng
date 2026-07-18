@@ -13,15 +13,19 @@
 - 在今天、7 天和总计之间切换输入、输出、缓存读写、请求、Token 与实际消费；
 - 展示模型分布、请求明细，以及启用 Ops 监控时的综合健康评分、TTFT、SLA 和 QPS/TPS；
 - 支持手动刷新和 1–60 分钟自动刷新；
+- “连接与预警”使用独立设置窗口，数值阈值可直接查看和调整；
+- 首次手动启动显示欢迎页；启用登录启动时以 `--background` 静默运行，不打扰桌面；
 - 管理员 API Key 仅保存在 macOS Keychain。
 
 ## 使用
 
 1. 从 [Releases](https://github.com/q1an1x/yanheng/releases) 下载 DMG 或 ZIP。
 2. 将“言衡”拖入“应用程序”，首次启动时在 Finder 中右键应用并选择“打开”。
-3. 点击菜单栏的天平图标，展开“连接与预警”。
+3. 点击菜单栏的天平图标，在弹层底部点击“连接与预警…”打开独立设置窗口。
 4. 填写 sub2api 服务根地址，例如 `https://sub2api.example.com`，以及系统设置中的管理员 API Key。
 5. 调整最少可用账号、最低可用率和 5h/7d 余量阈值，依次点击“保存设置”和“测试连接”。
+
+服务地址可以是公网、局域网或 VPN fake-IP 地址；应用清单允许常见的 `198.18.0.0/15` 特殊测试网段，实际请求仍只发送到你填写的地址。
 
 当前制品没有使用 Apple Developer ID 公证。Release 同时提供 `SHA256SUMS`，请在可信下载来源下核对摘要。
 
@@ -43,16 +47,21 @@
 
 ## 开发
 
-需要言序 1.1.15+、言包 0.5.0+：
+需要言序 1.1.17+、言包 0.5.0+：
 
 ```sh
 yanbao audit --offline
 yanbao check
-yanbao build --release --bundle
-VERSION=1.0.0-beta.1 sh scripts/package-release.sh
+yanxu 编 . -o build/言衡.app --release --bundle
+VERSION=1.0.0 sh scripts/package-release.sh
 ```
 
 言衡仓库不包含 Swift 或应用专属原生模块。HTTP 与日期时间分别由纯言序 `yanxu-request`、`yanxu-datetime` 提供；Keychain、菜单栏定时器和 SwiftUI 控件由锁定的 `yanxu-macos-ui` 通用宿主提供。
+
+## 致谢
+
+- [Qian](https://qian.io)
+- [Yanxu Contributors](https://yanxu.dev)
 
 ## 许可
 
